@@ -1,0 +1,514 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API for managing instances of Material Lots and their capabilities.",
+    "version" : "1.0.0",
+    "title" : "Material Resource Management API",
+    "contact" : {
+      "email" : "mason.yarrick@bhp.com"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "tags" : [ {
+    "name" : "admins",
+    "description" : "Secured Admin-only calls"
+  }, {
+    "name" : "developers",
+    "description" : "Operations available to regular developers"
+  } ],
+  "paths" : {
+    "/materialLot/{id}" : {
+      "get" : {
+        "tags" : [ "developers" ],
+        "summary" : "gets material lots",
+        "operationId" : "getMaterialLot",
+        "description" : "Gets material lots with specific IDs\n",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "Material Lot ID",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "query",
+          "name" : "id",
+          "description" : "The version of the spec to get the material lot for",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/MaterialLot"
+            }
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "admins" ],
+        "summary" : "deletes material lots",
+        "operationId" : "deleteMaterialLot",
+        "description" : "Delete existing items of material from the system\n",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "Material Lot ID",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Deleted"
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "admins" ],
+        "summary" : "updates material lots",
+        "operationId" : "updateMaterialLot",
+        "description" : "Update existing items of material in the system\n",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "Material Lot ID",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "materialLot",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/MaterialLot"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Updated"
+          },
+          "400" : {
+            "description" : "Bad input parameter"
+          }
+        }
+      }
+    },
+    "/materialLot" : {
+      "get" : {
+        "tags" : [ "developers" ],
+        "summary" : "retrieves material lots",
+        "operationId" : "searchMaterial",
+        "description" : "By passing in the appropriate options, you can search for available material lots in the system\n",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "id",
+          "description" : "the unique identifier of the material lot to retrieve",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "query",
+          "name" : "hierarchyScopeId",
+          "description" : "The hierarchy scope to retrieve material lots by",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "query",
+          "name" : "limit",
+          "description" : "the number of results to return",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "in" : "query",
+          "name" : "version",
+          "description" : "the version of the spec to get material lots for",
+          "required" : false,
+          "type" : "number"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/MaterialLot"
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "admins" ],
+        "summary" : "creates material lots",
+        "operationId" : "createMaterialLot",
+        "description" : "Create new items of material in the system\n",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "materialLot",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/MaterialLot"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Created"
+          },
+          "400" : {
+            "description" : "Bad input parameter"
+          }
+        }
+      }
+    },
+    "/capability/{id}" : {
+      "get" : {
+        "tags" : [ "developers" ],
+        "summary" : "gets capability with a specific ID",
+        "operationId" : "getMaterialCapability",
+        "description" : "Gets material lot capability with a specific ID\n",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "Material Lot Capability ID",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/MaterialCapability"
+            }
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "admins" ],
+        "summary" : "deletes capability with a specific ID",
+        "operationId" : "deleteMaterialLotCapability",
+        "description" : "Delete material lot capability with a specific ID\n",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "Material Lot Capability ID",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Deleted"
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "admins" ],
+        "summary" : "updates capability with a specific ID",
+        "operationId" : "putMaterialLotCapability",
+        "description" : "Updates material lot capability with a specific ID\n",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "description" : "Material Lot Capability ID",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "materialCapability",
+          "description" : "The material capability to update.",
+          "schema" : {
+            "$ref" : "#/definitions/MaterialCapability"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Updated"
+          },
+          "400" : {
+            "description" : "Bad input parameter"
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        }
+      }
+    },
+    "/capability" : {
+      "get" : {
+        "tags" : [ "developers" ],
+        "summary" : "gets material lot capability",
+        "operationId" : "getMaterialCapabilities",
+        "description" : "Gets material capabilities\n",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "materialClassId",
+          "description" : "Material Class ID",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "query",
+          "name" : "materialLotId",
+          "description" : "Material Lot ID",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "query",
+          "name" : "workType",
+          "description" : "Work Type",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "query",
+          "name" : "materialUse",
+          "description" : "Material Use",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "query",
+          "name" : "minTimestamp",
+          "description" : "Minimum Timestamp",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "query",
+          "name" : "maxTimestamp",
+          "description" : "Maximum Timestamp",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "capabilities matching search criteria",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/MaterialCapability"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad input parameter"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "admins" ],
+        "summary" : "creates material lot capabilities",
+        "operationId" : "createMaterialCapability",
+        "description" : "Create new items of material capability in the system\n",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "capability",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/MaterialCapability"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Created"
+          },
+          "400" : {
+            "description" : "Bad input parameter"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "MaterialLot" : {
+      "type" : "object",
+      "required" : [ "id", "version", "hierarchyScopeId", "effectiveFrom", "effectiveTo" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "example" : "Block XYZ"
+        },
+        "version" : {
+          "type" : "number",
+          "example" : 1
+        },
+        "materialClassId" : {
+          "type" : "string",
+          "example" : "In-Situ"
+        },
+        "description" : {
+          "type" : "string",
+          "example" : "ER Crusher"
+        },
+        "hierarchyScopeId" : {
+          "type" : "string",
+          "example" : "ER-PC"
+        },
+        "quantity" : {
+          "type" : "number",
+          "example" : 5000
+        },
+        "quantityUnitOfMeasure" : {
+          "type" : "string",
+          "example" : "Tonnes"
+        },
+        "effectiveFrom" : {
+          "type" : "string",
+          "example" : 201808151000
+        },
+        "effectiveTo" : {
+          "type" : "string",
+          "example" : 201808151000
+        },
+        "properties" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/MaterialLotProperty"
+          }
+        }
+      }
+    },
+    "MaterialLotProperty" : {
+      "type" : "object",
+      "required" : [ "propertyKey", "propertyValue", "context", "unitOfMeasure" ],
+      "properties" : {
+        "propertyKey" : {
+          "type" : "string",
+          "example" : "Dig Rate"
+        },
+        "propertyValue" : {
+          "type" : "string",
+          "example" : 3600
+        },
+        "unitOfMeasure" : {
+          "type" : "string",
+          "example" : "Tonnes/Hour"
+        }
+      }
+    },
+    "MaterialCapability" : {
+      "type" : "object",
+      "required" : [ "capabilityType", "quantity", "quantityUnitOfMeasure" ],
+      "properties" : {
+        "materialClassId" : {
+          "type" : "string",
+          "example" : "ER-9400"
+        },
+        "materialDefinitionId" : {
+          "type" : "string",
+          "example" : "HG1"
+        },
+        "materialLotId" : {
+          "type" : "string",
+          "example" : "EX7015"
+        },
+        "description" : {
+          "type" : "string",
+          "example" : "Used for digging"
+        },
+        "capabilityType" : {
+          "type" : "string",
+          "example" : "{Used,Unused,Total,Available,Unattainable,Committed}"
+        },
+        "reason" : {
+          "type" : "string",
+          "example" : "Due to schedule compliance"
+        },
+        "confidenceFactor" : {
+          "type" : "number",
+          "example" : 75
+        },
+        "hieararchyScopeId" : {
+          "type" : "string",
+          "example" : "ER-IP"
+        },
+        "materialUse" : {
+          "type" : "string",
+          "example" : "Digging"
+        },
+        "startTime" : {
+          "type" : "string",
+          "example" : "201808231000"
+        },
+        "endTime" : {
+          "type" : "string",
+          "example" : "201208241100"
+        },
+        "quantity" : {
+          "type" : "number",
+          "example" : 1
+        },
+        "quantityUnitOfMeasure" : {
+          "type" : "string",
+          "example" : "Each"
+        },
+        "properties" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/MaterialCapabilityProperty"
+          }
+        }
+      }
+    },
+    "MaterialCapabilityProperty" : {
+      "type" : "object",
+      "required" : [ "id", "value", "quantity" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "example" : "e4cad374-1dbc-4873-b46f-5a37c4215a5f"
+        },
+        "description" : {
+          "type" : "string",
+          "example" : "Measurement System"
+        },
+        "value" : {
+          "type" : "string",
+          "example" : "Metric"
+        },
+        "valueUnitOfMeasure" : {
+          "type" : "string",
+          "example" : "{Metric,Imperial}"
+        },
+        "quantity" : {
+          "type" : "number",
+          "example" : 1
+        },
+        "quantityUnitOfMeasure" : {
+          "type" : "string",
+          "example" : "Each"
+        },
+        "properties" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/MaterialCapabilityProperty"
+          }
+        }
+      }
+    }
+  },
+  "host" : "virtserver.swaggerhub.com",
+  "schemes" : [ "https" ],
+  "basePath" : "/BHP7/MaterialResourceManagement_API/1.0.0"
+}
