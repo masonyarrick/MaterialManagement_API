@@ -1,7 +1,7 @@
 {
   "swagger" : "2.0",
   "info" : {
-    "description" : "API for managing instances of Material Lots and their capabilities.",
+    "description" : "Production resource management shall be defined as the collection of activities that manage the information about resources required by production operations, and relationships between resources. The resources include machines, tools, labour (with specific skill sets), materials and energy, as defined in the object models given in ISA-95 Part 1. Direct control of these resources in order to meet production requirements is performed in other activities, such as production dispatching and production execution management. Management of information about segments of production is also an activity in resource management. Management of the resource information may be handled by computer systems but it may be partly or entirely handled by manual processes. Management of the resources may include local resource reservation systems to manage information about future availability. There may be separate reservation systems for each ANSI/ISA-95.00.03-2013 - 28 - managed critical resource. There may be separate activities for each type of resource, or combined activities for sets of resources.  Information about resources and relationships between resources needed for a segment of production must be maintained and provided on the available, committed and unattainable capacity for specific periods of time of specified resources as defined in ISA-95 Part 1.",
     "version" : "1.0.0",
     "title" : "Material Resource Management API",
     "contact" : {
@@ -347,39 +347,56 @@
       "properties" : {
         "id" : {
           "type" : "string",
+          "description" : "A unique identification of a specific material lot, within the scope of the information exchanged (production capability, production schedule, production performance, …) The ID shall be used in other parts of the model when the material lot needs to be identified, such as the production capability for this material lot, or a production response identifying the material lot used.",
           "example" : "Block XYZ"
         },
         "version" : {
           "type" : "number",
+          "description" : "The version number of this instance of the Material Lot.",
           "example" : 1
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the material lot. For example, released, approved, blocked, in process, in quality check.",
+          "example" : "In Process"
         },
         "materialClassId" : {
           "type" : "string",
           "example" : "In-Situ"
         },
+        "materialDefinitionId" : {
+          "type" : "string",
+          "example" : "HG1"
+        },
         "description" : {
           "type" : "string",
+          "description" : "Additional information about the material lot.",
           "example" : "ER Crusher"
         },
-        "hierarchyScopeId" : {
+        "storageLocationId" : {
           "type" : "string",
+          "description" : "An identification of the storage location or a physical location of the material lot.",
           "example" : "ER-PC"
         },
         "quantity" : {
           "type" : "number",
+          "description" : "The quantity of the material lot.",
           "example" : 5000
         },
         "quantityUnitOfMeasure" : {
           "type" : "string",
+          "description" : "The unit of measure of the associated quantity, if applicable.",
           "example" : "Tonnes"
         },
         "effectiveFrom" : {
           "type" : "string",
-          "example" : 201808151000
+          "description" : "The timestamp that this state of the Material Lot is effective from.",
+          "example" : "201808151000"
         },
         "effectiveTo" : {
           "type" : "string",
-          "example" : 201808151000
+          "description" : "The timestamp that this state of the Material Lot expires.",
+          "example" : "201808151000"
         },
         "properties" : {
           "type" : "array",
@@ -391,18 +408,26 @@
     },
     "MaterialLotProperty" : {
       "type" : "object",
-      "required" : [ "propertyKey", "propertyValue", "context", "unitOfMeasure" ],
+      "required" : [ "id", "description", "value", "valueUnitOfMeasure" ],
       "properties" : {
-        "propertyKey" : {
+        "id" : {
           "type" : "string",
+          "description" : "An identification of a specific material class property.",
+          "example" : "DigRate"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Additional information about the material class property.",
           "example" : "Dig Rate"
         },
-        "propertyValue" : {
+        "value" : {
           "type" : "string",
+          "description" : "The value, set of values, or range of the property.",
           "example" : 3600
         },
-        "unitOfMeasure" : {
+        "valueUnitOfMeasure" : {
           "type" : "string",
+          "description" : "The unit of measure of the associated property value, if applicable.",
           "example" : "Tonnes/Hour"
         }
       }
@@ -413,54 +438,67 @@
       "properties" : {
         "materialClassId" : {
           "type" : "string",
+          "description" : "Identifies the associated material class of the capability.",
           "example" : "ER-9400"
         },
         "materialDefinitionId" : {
           "type" : "string",
+          "description" : "Identifies the associated material definition of the capability.",
           "example" : "HG1"
         },
         "materialLotId" : {
           "type" : "string",
+          "description" : "Identifies the associated material lot of the capability.",
           "example" : "EX7015"
         },
         "description" : {
           "type" : "string",
+          "description" : "Contains additional information and descriptions of the material capability definition.",
           "example" : "Used for digging"
         },
         "capabilityType" : {
           "type" : "string",
+          "description" : "The capability type: Used, Unused, Total, Available, Unattainable, or Committed.",
           "example" : "{Used,Unused,Total,Available,Unattainable,Committed}"
         },
         "reason" : {
           "type" : "string",
+          "description" : "Defines the reason for the capability type.",
           "example" : "Due to schedule compliance"
         },
         "confidenceFactor" : {
           "type" : "number",
+          "description" : "A measure of the confidence of the capacity value.",
           "example" : 75
         },
         "hieararchyScopeId" : {
           "type" : "string",
+          "description" : "Identifies where the exchanged information fits within the role based equipment hierarchy.  If omitted, then the capability is associated to the parent operations capability hierarchy scope.   Zero or more as required to identify the specific scope of the operations capability definition.",
           "example" : "ER-IP"
         },
         "materialUse" : {
           "type" : "string",
+          "description" : "Defines the expected capability use of the material. For example, Consumed, Produced, or Consumable.",
           "example" : "Digging"
         },
         "startTime" : {
           "type" : "string",
+          "description" : "The starting time associated with the material capability.   If omitted, then the capability is associated to the parent operations capability start time.",
           "example" : "201808231000"
         },
         "endTime" : {
           "type" : "string",
+          "description" : "The ending time associated with the material capability.   If omitted, then the capability is associated to the parent operations capability end time.",
           "example" : "201208241100"
         },
         "quantity" : {
           "type" : "number",
+          "description" : "Specifies the quantity of the material capability defined, if applicable.",
           "example" : 1
         },
         "quantityUnitOfMeasure" : {
           "type" : "string",
+          "description" : "The unit of measure of the material quantity, if applicable.",
           "example" : "Each"
         },
         "properties" : {
@@ -477,26 +515,32 @@
       "properties" : {
         "id" : {
           "type" : "string",
+          "description" : "An identification of a property of the associated material property or equipment class property.",
           "example" : "e4cad374-1dbc-4873-b46f-5a37c4215a5f"
         },
         "description" : {
           "type" : "string",
+          "description" : "Contains additional information and descriptions of the material capability property definition.",
           "example" : "Measurement System"
         },
         "value" : {
           "type" : "string",
+          "description" : "The value, set of values, or range of the property.",
           "example" : "Metric"
         },
         "valueUnitOfMeasure" : {
           "type" : "string",
+          "description" : "The unit of measure of the associated property value, if applicable.",
           "example" : "{Metric,Imperial}"
         },
         "quantity" : {
           "type" : "number",
+          "description" : "Specifies the quantity of the material capability defined, if applicable.",
           "example" : 1
         },
         "quantityUnitOfMeasure" : {
           "type" : "string",
+          "description" : "The unit of measure of the associated quantity.",
           "example" : "Each"
         },
         "properties" : {
