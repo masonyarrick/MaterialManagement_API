@@ -438,6 +438,12 @@
           "type" : "string",
           "description" : "The unit of measure of the associated property value, if applicable.",
           "example" : "Tonnes/Hour"
+        },
+        "properties" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/MaterialLotProperty"
+          }
         }
       }
     },
